@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker_with_d4/models/habit_model.dart';
 
-class HomePage extends StatefulWidget {
+import '../controller/home_controller.dart';
+
+class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  Widget build(BuildContext context) {
+    Get.put(HomeController());
+    return Scaffold();
+  }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HabitWidget extends GetView<HomeController> {
+  final HabitModel habit;
+
+  const _HabitWidget(this.habit, {super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Container();
   }
 }

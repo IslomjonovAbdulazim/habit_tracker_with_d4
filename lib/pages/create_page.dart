@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CreatePage extends StatefulWidget {
+import '../controller/create_controller.dart';
+
+class CreatePage extends GetView<CreateController> {
   const CreatePage({super.key});
 
   @override
-  State<CreatePage> createState() => _CreatePageState();
-}
-
-class _CreatePageState extends State<CreatePage> {
-  @override
   Widget build(BuildContext context) {
+    Get.put(CreateController());
     return Scaffold();
   }
 }
