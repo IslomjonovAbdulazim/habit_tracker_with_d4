@@ -18,12 +18,27 @@ class HomePage extends GetView<HomeController> {
         title: Text("Habits"),
         actions: [
           CupertinoButton(
-            onPressed: () {
-              Get.to(CreatePage());
+            onPressed: () async {
+              await Get.to(CreatePage());
+              controller.load();
             },
             child: Icon(CupertinoIcons.add),
           ),
         ],
+      ),
+      body: Obx(
+        () => ListView.builder(
+          itemCount: controller.habits.length,
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          itemBuilder: (context, index) {
+            final habit = controller.habits[index];
+            return _HabitWidget(
+              habit: habit,
+              play: () {},
+              update: controller.load,
+            );
+          },
+        ),
       ),
     );
   }
@@ -45,8 +60,53 @@ class _HabitWidget extends StatefulWidget {
 }
 
 class _HabitWidgetState extends State<_HabitWidget> {
+  List<DateTime> dates = [];
+
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  void init() {
+    final now = DateTime.now();
+
+    for (int i = 0; i < 200; i++) {
+      dates.add(now.subtract(Duration(days: i)));
+    }
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                widget.habit.title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {},
+              child: Icon(CupertinoIcons.delete),
+            ),
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {},
+              child: Icon(CupertinoIcons.checkmark_alt),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
