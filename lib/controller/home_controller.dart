@@ -13,7 +13,20 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    player.dispose();
+    super.onClose();
+  }
+
   void load() async {
     habits.value = await habitReadAll();
+  }
+
+  void play() {
+    player.stop();
+    player.seek(Duration.zero);
+    player.setPitch(0.7);
+    player.play();
   }
 }

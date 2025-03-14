@@ -34,7 +34,7 @@ class HomePage extends GetView<HomeController> {
             final habit = controller.habits[index];
             return _HabitWidget(
               habit: habit,
-              play: () {},
+              play: controller.play,
               update: controller.load,
             );
           },
@@ -80,33 +80,67 @@ class _HabitWidgetState extends State<_HabitWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                widget.habit.title,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  widget.habit.title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
               ),
+              CupertinoButton(
+                color: Colors.red,
+                padding: EdgeInsets.zero,
+                onPressed: () {},
+                child: Icon(CupertinoIcons.delete),
+              ),
+              SizedBox(width: 5),
+              CupertinoButton(
+                color: isActive(DateTime.now(), widget.habit.activeDates)
+                    ? Colors.green
+                    : Colors.grey,
+                padding: EdgeInsets.zero,
+                onPressed: () async {
+                  await habitCheck(widget.habit, DateTime.now());
+                  widget.update();
+                  widget.play();
+                },
+                child: Icon(CupertinoIcons.checkmark_alt),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 150,
+            child: GridView.builder(
+              scrollDirection: Axis.horizontal,
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
+              itemCount: dates.length,
+              itemBuilder: (context, index) {
+                final d = dates[index];
+                return AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  margin: EdgeInsets.all(1.5),
+                  decoration: BoxDecoration(
+                    color: isActive(d, widget.habit.activeDates)
+                        ? Colors.green
+                        : Colors.grey,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                );
+              },
             ),
-            CupertinoButton(
-              padding: EdgeInsets.zero,
-              onPressed: () {},
-              child: Icon(CupertinoIcons.delete),
-            ),
-            CupertinoButton(
-              padding: EdgeInsets.zero,
-              onPressed: () {},
-              child: Icon(CupertinoIcons.checkmark_alt),
-            ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
