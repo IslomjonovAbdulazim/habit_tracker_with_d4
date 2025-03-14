@@ -29,13 +29,24 @@ class HomePage extends GetView<HomeController> {
   }
 }
 
-class _HabitWidget extends GetView<HomeController> {
+class _HabitWidget extends StatefulWidget {
   final HabitModel habit;
+  final VoidCallback play;
+  final VoidCallback update;
 
-  const _HabitWidget(this.habit, {super.key});
+  const _HabitWidget(
+      {super.key,
+      required this.habit,
+      required this.play,
+      required this.update});
 
   @override
+  State<_HabitWidget> createState() => _HabitWidgetState();
+}
+
+class _HabitWidgetState extends State<_HabitWidget> {
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Placeholder();
   }
 }
