@@ -43,6 +43,7 @@ Future<List<HabitModel>> habitReadAll() async {
     List jsonList = jsonDecode(data);
     result = jsonList.map((json) => HabitModel.fromJson(json)).toList();
   }
+  result.sort((a, b) => a.createdAt.compareTo(b.createdAt));
   return result;
 }
 

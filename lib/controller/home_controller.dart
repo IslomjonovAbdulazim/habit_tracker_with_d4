@@ -14,4 +14,3 @@ class HomeController extends GetxController {
     habits.value = await habitReadAll();
   }
 }
-
