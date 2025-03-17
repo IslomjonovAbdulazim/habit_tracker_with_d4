@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -116,7 +117,22 @@ class _HabitWidgetState extends State<_HabitWidget> {
               CupertinoButton(
                 color: Colors.red,
                 padding: EdgeInsets.zero,
-                onPressed: () {},
+                onPressed: () async {
+                  await AwesomeDialog(
+                    context: context,
+                    animType: AnimType.scale,
+                    dialogType: DialogType.warning,
+                    btnOkOnPress: () {},
+                    btnCancelOnPress: () async {
+                      await habitDelete(widget.habit);
+                      widget.update();
+                    },
+                    btnCancelText: "Delete",
+                    btnOkText: "Cancel",
+                    title: "Delete Habit",
+                    desc: "You cannot undo this action",
+                  ).show();
+                },
                 child: Icon(
                   CupertinoIcons.delete,
                   color: Colors.white,

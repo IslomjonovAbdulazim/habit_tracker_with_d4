@@ -23,10 +23,10 @@ class HomeController extends GetxController {
     habits.value = await habitReadAll();
   }
 
-  void play() {
-    player.stop();
-    player.seek(Duration.zero);
-    player.setPitch(0.7);
-    player.play();
+  void play() async {
+    await player.stop();
+    await player.seek(Duration.zero);
+    await player.setPitch(0.7);
+    await player.play();
   }
 }
