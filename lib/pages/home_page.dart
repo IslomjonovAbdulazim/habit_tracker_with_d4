@@ -44,17 +44,19 @@ class HomePage extends GetView<HomeController> {
         ],
       ),
       body: Obx(
-        () => ListView.builder(
-          itemCount: controller.habits.length,
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          itemBuilder: (context, index) {
-            final habit = controller.habits[index];
-            return _HabitWidget(
-              habit: habit,
-              play: controller.play,
-              update: controller.load,
-            );
-          },
+        () => SafeArea(
+          child: ListView.builder(
+            itemCount: controller.habits.length,
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            itemBuilder: (context, index) {
+              final habit = controller.habits[index];
+              return _HabitWidget(
+                habit: habit,
+                play: controller.play,
+                update: controller.load,
+              );
+            },
+          ),
         ),
       ),
     );
