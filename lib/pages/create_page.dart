@@ -43,6 +43,8 @@ class CreatePage extends GetView<CreateController> {
               TextField(
                 controller: controller.nameController,
                 focusNode: controller.focus,
+                autofocus: true,
+                autocorrect: false,
                 onTapOutside: (value) => controller.focus.unfocus(),
                 maxLength: 30,
                 cursorColor: Colors.white,
