@@ -1,10 +1,13 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_check_box_rounded/flutter_check_box_rounded.dart';
+import 'package:flutter_popup/flutter_popup.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:habit_tracker_with_d4/models/habit_model.dart';
 import 'package:habit_tracker_with_d4/pages/create_page.dart';
+import 'package:intl/intl.dart';
 
 import '../controller/home_controller.dart';
 
@@ -170,19 +173,39 @@ class _HabitWidgetState extends State<_HabitWidget> {
               itemCount: dates.length,
               itemBuilder: (context, index) {
                 final d = dates[index];
-                return AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
-                  margin: EdgeInsets.all(1.5),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: isActive(d, widget.habit.activeDates)
-                          ? Color(0xff7C3AED)
-                          : Color(0xff27272A),
+                final active = isActive(d, widget.habit.activeDates);
+                return CustomPopup(
+                  content: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        DateFormat.yMMMMd().format(d),
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(width: 6),
+                      CheckBoxRounded(
+                        checkedColor: Color(0xff7C3AED),
+                        onTap: (value) async {
+                          widget.play();
+                          await habitCheck(widget.habit, d);
+                          widget.update();
+                        },
+                      ),
+                    ],
+                  ),
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 300),
+                    margin: EdgeInsets.all(1.5),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: active ? Color(0xff7C3AED) : Color(0xff27272A),
+                      ),
+                      color: active ? Color(0xff7C3AED) : Color(0xff18181B),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    color: isActive(d, widget.habit.activeDates)
-                        ? Color(0xff7C3AED)
-                        : Color(0xff18181B),
-                    borderRadius: BorderRadius.circular(5),
                   ),
                 );
               },
